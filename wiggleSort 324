@@ -1,0 +1,57 @@
+Given an unsorted array nums, reorder it such that nums[0] < nums[1] > nums[2] < nums[3]....
+
+Example 1:
+
+Input: nums = [1, 5, 1, 1, 6, 4]
+Output: One possible answer is [1, 4, 1, 5, 1, 6].
+Example 2:
+
+Input: nums = [1, 3, 2, 2, 3, 1]
+Output: One possible answer is [2, 3, 1, 3, 1, 2].
+
+----------------
+We can put the larger half of the numbers on the odd indexes and the smaller half in the even indexes.
+The key point is that we add numbers to the slots from right to left. If the total number is odd, the 
+smaller half should have one more element.
+
+For example:
+case 1: 
+Small Part: M  S  S  S
+Large Part:   L  L  L  M
+Merged Part: M L S L S L S M
+
+case 2:
+Small Part: M S S S
+Large Part:  L L M
+Merged Part: M L S L S M S
+
+
+Solution1:
+1 sort the nums
+2 put the sorted nums into the slots
+
+Space complexity is O(n) and time complexity is O(nlogn)
+
+class Solution:
+    def wiggleSort(self, nums: 'List[int]') -> 'None':
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        sortedNums = sorted(nums)
+        half = int((len(nums)+1)/2) - 1
+        nums[::2] = sortedNums[half::-1]  // the smaller half
+        nums[1::2] = sortedNums[:half:-1] // the larger half
+
+
+
+
+
+
+
+
+
+
+
+
+
+
