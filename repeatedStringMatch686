@@ -1,0 +1,39 @@
+Given two strings A and B, find the minimum number of times A has to be repeated such that B is a substring of it. If no such solution, return -1.
+
+For example, with A = "abcd" and B = "cdabcdab".
+
+Return 3, because by repeating A three times (“abcdabcdabcd”), B is a substring of it; and B is not a substring of A repeated two times ("abcdabcd").
+
+Note:
+The length of A and B will be between 1 and 10000.
+
+Soultion 1:
+The minimum of t should len(A) * t >= B. We just need to check t & t+1 because for any t+2 times of A has the subStr of B, we can find the same solution of t+1 times. Let say t = 3, B is less than 3 times of A; If B matches the A*5, cause A is the repeated, so we must
+find A*4.
+
+
+import math
+class Solution:
+    def repeatedStringMatch(self, A: 'str', B: 'str') -> 'int':
+        times = math.ceil(len(B)/len(A))
+        for t in [times, times+1]:
+            if B in A*t:
+                return t
+        return -1
+
+Time Complexity: O(N*(M+N)) let M, N are the lengths of string A and B. The main work here is to find the substring.
+Space Complexity: O(M+N) that is the space of A*t
+
+Soultion 2:
+https://en.wikipedia.org/wiki/Modular_multiplicative_inverse to explain why p_inv = pow(p, MOD-2, MOD)
+
+Use hash method to reduce the time to find the substring.
+Cause A*t is repeated, so we can calucate its substring hash in time complexity linear.
+
+Let say hash(S) = pow(p, i) * S[i] for i from 0 to n-1  (p is prime)
+hash(S[1:]+x) = (hash(S) - S[0])/p + pow(p, n-1) * x
+
+If the hash of substring matches with B's hash, then we check the two string literally.
+
+
+
