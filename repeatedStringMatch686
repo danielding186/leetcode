@@ -8,8 +8,9 @@ Note:
 The length of A and B will be between 1 and 10000.
 
 Soultion 1:
-The minimum of t should len(A) * t >= B. We just need to check t & t+1 because for any t+2 times of A has the subStr of B, we can find the same solution of t+1 times. Let say t = 3, B is less than 3 times of A; If B matches the A*5, cause A is the repeated, so we must
-find A*4.
+The minimum of t should len(A) * t >= B. We just need to check t & t+1 because for any t+2 times of A has the subStr of B, 
+we can find the same solution of t+1 times. Let say t = 3, B is less than 3 times of A;
+If B matches the A*5, cause A is the repeated, so we must find A*4.
 
 
 import math
