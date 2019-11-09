@@ -1,0 +1,47 @@
+Fenwick Tree
+
+https://blog.csdn.net/u010270082/article/details/36506033
+
+Lowbit(nature)
+首先，定位lowbit(natural)为自然数(即1,2,3…n)的二进制形式中最右边出现1的值。
+比如：4 = 100，lowbit(4) = 4；36 = 100100，lowbit(36) = 4.
+Lowbit为1的自然数为1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31…d = 2
+Lowbit为2的自然数为2,6,10,14,18,22,26,30,… d = 4
+Lowbit为3的自然数为4,12,20,28… d=8
+Lowbit为4的自然数为8,32
+lowbit（x） = x&(-x)
+
+C，其中C[i]=A[i-lowbit(i)+1]+A[i-lowbit(i)+2]+....+A[i]
+C的每个元素都是A数组中的一段连续和。到底是那一段呢？在BIT中，每个灰色结点i都属于一个以它自身结尾的水平长条
+
+有了 lowbit，我们就能在完全二叉树里快速地定位：
+n - lowbit(bit) 为左祖父/父节点
+n + lowbit(bit) 为右祖父/父节点
+n - lowbit(bit) + 1 为左子树的底层节点
+
+
+def construct(arr, n):
+	BITTree = [0] * (n+1)
+
+	for i in range(n):
+		updatebit(BITTree, n, i, arr[i])
+	return BITTree
+	
+从A[i]开始往右走，边走边往上爬，沿途修改所有结点对应的C[i]即可
+def updatebit(BITTree, n, i, v):
+	i += 1
+	while i <= n:
+		BITTree[i] += v
+		# Move index to parent node in getSum View 
+		i += i & (-i)
+
+#顺着结点i往左走，边走边往上爬。把沿途经过的C[i]累加起来就可以了
+def getsum(BITTree, i):
+	s = 0
+	i += 1
+
+	while i > 0:
+		s += BITTree[i]
+		# Update index to that of parent in update View 
+		i -= i & (-i)
+	return s
